@@ -75,51 +75,51 @@ const EventForm: React.FC = () => {
       return `${day}/${month}/${year}`;
     };
 
-    const message = `🍸 *SOLICITAÇÃO DE ORÇAMENTO - FABARDRINKS*
+    const message = `*SOLICITAÇÃO DE ORÇAMENTO - FABARDRINKS*
 
-👤 *DADOS PESSOAIS:*
-• Nome: ${formData.fullName}
-• WhatsApp: ${formData.whatsapp}
+*DADOS PESSOAIS:*
+Nome: ${formData.fullName}
+WhatsApp: ${formData.whatsapp}
 
-🎉 *DETALHES DO EVENTO:*
-• Tipo: ${formData.eventType}
-• Data: ${formatDate(formData.date)}
-• Horário: ${formData.time}
-• Local: ${formData.location}
-• Número de convidados: ${formData.guestCount}
+*DETALHES DO EVENTO:*
+Tipo: ${formData.eventType}
+Data: ${formatDate(formData.date)}
+Horário: ${formData.time}
+Local: ${formData.location}
+Número de convidados: ${formData.guestCount}
 
-🍹 *BEBIDAS:*
-• Tipos selecionados: ${formData.beverageTypes.length > 0 ? formData.beverageTypes.join(', ') : 'Nenhum selecionado'}
+*BEBIDAS:*
+Tipos selecionados: ${formData.beverageTypes.length > 0 ? formData.beverageTypes.join(', ') : 'Nenhum selecionado'}
 
-🎯 *SERVIÇOS:*
-${formData.services.map(service => `• ${service}`).join('\n')}
+*SERVIÇOS:*
+${formData.services.map(service => `- ${service}`).join('\n')}
 
-🍸 *PREFERÊNCIAS DE DRINKS:*
+*PREFERÊNCIAS DE DRINKS:*
 ${formData.drinkPreferences}
 
-🎨 *PERSONALIZAÇÃO:*
+*PERSONALIZAÇÃO:*
 ${formData.customization || 'Nenhuma personalização solicitada'}
 
-💳 *FORMA DE PAGAMENTO:*
+*FORMA DE PAGAMENTO:*
 ${formData.paymentMethod}
 
----
-Aguardo o orçamento detalhado! 😊`;
+Aguardo o orçamento detalhado!`;
 
-    return encodeURIComponent(message);
+    return message;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Número do WhatsApp da FabarDrinks (substitua pelo número real)
-    const whatsappNumber = '556191362933'; // Formato: código do país + DDD + número
+
+    // Número do WhatsApp da FabarDrinks
+    const whatsappNumber = '556191362933';
     const message = formatWhatsAppMessage();
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
     // Abre o WhatsApp
     window.open(whatsappUrl, '_blank');
-    
+
     setSubmitted(true);
   };
 
